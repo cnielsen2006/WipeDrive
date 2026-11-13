@@ -1,0 +1,86 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "GUI",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/wipedrive_gui.py",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "List disks",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/wipedrive.py",
+            "args": ["list"],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Free space: dry run",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/wipedrive.py",
+            "args": ["freespace", "${input:freespacePath}", "--passes", "${input:passes}", "--dry-run"],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Device: dry run (needs admin)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/wipedrive.py",
+            "args": ["device", "${input:deviceTarget}", "--passes", "${input:passes}", "--dry-run"],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Free space: WIPE (writes until the volume is full)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/wipedrive.py",
+            "args": ["freespace", "${input:freespacePath}", "--passes", "${input:passes}"],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Device: WIPE (DESTROYS DATA, needs admin)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/wipedrive.py",
+            "args": ["device", "${input:deviceTarget}", "--passes", "${input:passes}", "--verify"],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Run tests",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "unittest",
+            "args": ["test_wipedrive", "test_wipedrive_gui", "-v"],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "freespacePath",
+            "type": "promptString",
+            "description": "Directory on the volume whose free space should be wiped (e.g. E:\\)"
+        },
+        {
+            "id": "deviceTarget",
+            "type": "promptString",
+            "description": "Target to wipe: PhysicalDriveN or a volume letter such as E: (run 'List disks' first)"
+        },
+        {
+            "id": "passes",
+            "type": "pickString",
+            "description": "Pass pattern",
+            "options": ["zero", "random", "one", "dod"],
+            "default": "zero"
+        }
+    ]
+}
